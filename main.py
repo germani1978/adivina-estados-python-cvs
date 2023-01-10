@@ -1,3 +1,4 @@
+import random
 import pandas
 import turtle
 
@@ -10,16 +11,18 @@ turtle.shape(image)
 data = pandas.read_csv('50_states.csv')
 all_state = data.state.to_list()
 
+names = ['Juan','Pedro','Susana','Luis']
+puntuacion = { name: random.randint(1,100) for name in names}
+students = { student:score for (student, score) in puntuacion.items() if score > 60  }
+print(puntuacion)
+print(puntuacion.items())
 
 mising_states = []
 guessed_states = []
 while len(guessed_states) < 50:
     answer_state = screen.textinput(title=f'Estados {len(guessed_states)}/50', prompt='Cual es el nombre del estado').title() #capitalizar
     if answer_state == 'Exit':
-        for state in all_state:
-            if not state in guessed_states:
-                mising_states.append(state)
-                
+        mising_states = [ state for state in all_state if not state in guessed_states ]
         new_data = pandas.DataFrame(mising_states)
         new_data.to_csv('states_unknow.csv')
         break
